@@ -1,0 +1,40 @@
+"unit", value in Sv
+"µSv", 0.000001
+"mSv", 0.001
+"Sv", 1
+"Sleeping next to someone", 0.00000005
+"Living within 50 miles of a nuclear power plant for a year", 0.00000009
+"Eating one banana", 0.0000001
+"Living within 50 miles of a coal power plant for a year", 0.0000003
+"Arm x-ray", 0.000001
+"Using a CRT monitor for a year", 0.000001
+"Extra dose from spending one day in an area with higher-than-average natural background radiation such as the Colorado Plateau", 0.0000012
+"Dental x-ray", 0.000005
+"Background dose received by an average person over one normal day", 0.000010
+"Airplane flight from New York to Los Angeles", 0.000040
+"Chest x-ray", 0.000020
+"EPA yearly release target for a nuclear power plant", 0.000030
+"Extra dose to Tokyo in weeks following Fukushima accident", 0.000040
+"Living in a stone, brick, or concrete building for a year", 0.000070
+"Average total dose from the Three Mile Island accident to someone living within 10 miles", 0.000080
+"Approximate total dose received at Fukishima Town Hall over two weeks following accident", 0.000100
+"EPA yearly release limit for a nuclear power plant", 0.000250
+"Yearly dose from natural potassium in the body", 0.000390
+"Mammogram", 0.000400
+"EPA yearly release limit on radiation exposure to a single member of the public", 0.001
+"Maximum external dose from Three Mile Island accident", 0.001
+"Typical dose over two weeks in fukushima Exclusion Zone", 0.001
+"Head CT Scan", 0.002
+"Normal yearly background dose.", 0.004
+"Dose from spending an hour on the grounds at the Chernobyl plant in 2010", 0.006
+"Chest CT Scan", 0.007
+"Maximum yearly dose permitted for US radiation workers", 0.050
+"Approximate total dose at one station at the north-west edge of the Fukushima Exclusion Zone", 0.040
+"Lowest one-year dose clearly linked to increased cancer risk", 0.100
+"Dose recieved by two Fukushima plant workers", 0.180
+"Dose limit for emergency workers protecting valuable property", 0.100
+"Dose limit for emergency workers in lifesaving operations", 0.250
+"Dose causing symptoms of radiation poisoning if recieved in a short time", 0.400
+"Severe radiation poisoning, in some cases fatal", 2
+"Usually fatal radiation poisoning. Survival occasionally possible with prompt treatment.", 4
+"Fatal dose, even with treatment", 8
