@@ -16,12 +16,16 @@
 ###############################################################################
 
 import tkinter as tk
+import tkinter.ttk as ttk
 import csv 
 
 
 ###############################################################################
 #                                  CONSTANTS                                  #
 ###############################################################################
+
+# Debug
+DEBUG = True
 
 # Paths
 DATA_FILE_PATH = "data/radiation_exemples.csv"
@@ -65,10 +69,14 @@ def convert(value, unit_from, unit_to, values_dict):
     Convert a value from one unit to another
     """
     result = None
-    try:
-        result = value * values_dict[unit_from] / values_dict[unit_to] 
-    except Exception as e:
-        print(f"Error: {e}")
+    # try:
+    #     if DEBUG: print(f"Converted {value} {unit_from} to {result} {unit_to}")
+    #     result = value * values_dict[unit_from] / values_dict[unit_to]
+    # except Exception as e:
+    #     print(f"Error: {e}")
+
+    if DEBUG: print(f"Converted {value} {unit_from} to {result} {unit_to}")
+    result = value * values_dict[unit_from] / values_dict[unit_to]
     return result
 
 
@@ -76,12 +84,12 @@ def convert(value, unit_from, unit_to, values_dict):
 #                                    MAIN                                     #
 ###############################################################################
 
-def main(debug = False):
+def main():
     """
     Create the main window of the program
     """
 
-    if debug: print("\nBEGIN RadConvert/main.py")
+    if DEBUG: print("\nBEGIN RadConvert/main.py")
 
     # Load the units from the radiation_exemples.csv file
     # get the keys of the dictionary as a list
@@ -124,17 +132,19 @@ def main(debug = False):
     # Vars
     entry_value_1_var = tk.StringVar()
     entry_value_2_var = tk.StringVar()
-    entry_dropdown_1_var = tk.StringVar()
-    entry_dropdown_2_var = tk.StringVar()
+    entry_combobox_1_var = tk.StringVar()
+    entry_combobox_2_var = tk.StringVar()
 
     # Widgets
     entry_value_1 = tk.Entry(entry_1_frame, font=UI_FONT, textvariable=entry_value_1_var)
     entry_value_2 = tk.Entry(entry_2_frame, font=UI_FONT, textvariable=entry_value_2_var)
     
-    entry_dropdown_1 = tk.OptionMenu(entry_1_frame, entry_dropdown_1_var, *ALL_UNITS)
-    entry_dropdown_2 = tk.OptionMenu(entry_2_frame, entry_dropdown_2_var, *ALL_UNITS)
-    entry_dropdown_1_var.set(ALL_UNITS[0])
-    entry_dropdown_2_var.set(ALL_UNITS[0])
+    entry_combobox_1 = ttk.Combobox(entry_1_frame, state="readonly", values=ALL_UNITS, textvariable=entry_combobox_1_var)
+    entry_combobox_2 = ttk.Combobox(entry_2_frame, state="readonly", values=ALL_UNITS, textvariable=entry_combobox_2_var)
+    
+    entry_combobox_1.set(ALL_UNITS[0])
+    entry_combobox_2.set(ALL_UNITS[0])
+
 
     button_close = tk.Button(
         root,
@@ -147,8 +157,8 @@ def main(debug = False):
     def trace_entry_1(*args):
         try:
             value = float(entry_value_1_var.get())
-            unit_from = entry_dropdown_1.cget("text")
-            unit_to = entry_dropdown_2.cget("text")
+            unit_from = entry_combobox_1_var.get()
+            unit_to = entry_combobox_2_var.get()
             result = convert(value, unit_from, unit_to, load_units(DATA_FILE_PATH))
             entry_value_2_var.set(result)
         except ValueError:
@@ -157,8 +167,8 @@ def main(debug = False):
     def trace_entry_2(*args):
         try:
             value = float(entry_value_2_var.get())
-            unit_from = entry_dropdown_2.cget("text")
-            unit_to = entry_dropdown_1.cget("text")
+            unit_from = entry_combobox_2_var.get()
+            unit_to = entry_combobox_1_var.get()
             result = convert(value, unit_from, unit_to, load_units(DATA_FILE_PATH))
             entry_value_1_var.set(result)
         except ValueError:
@@ -168,8 +178,8 @@ def main(debug = False):
 
     entry_value_1_var.trace("w", trace_entry_1)
     entry_value_2_var.trace("w", trace_entry_2)
-    entry_dropdown_1_var.trace("w", trace_entry_1)
-    entry_dropdown_2_var.trace("w", trace_entry_2)
+    entry_combobox_1_var.trace("w", trace_entry_1)
+    entry_combobox_2_var.trace("w", trace_entry_2)
     
     
     # PACK ALL THE WIDGETS
@@ -181,8 +191,8 @@ def main(debug = False):
     entry_value_1.pack(side=tk.TOP, pady=UI_PADDING_Y, padx=UI_PADDING_X)
     entry_value_2.pack(side=tk.TOP, pady=UI_PADDING_Y, padx=UI_PADDING_X)
 
-    entry_dropdown_1.pack(side=tk.TOP, pady=UI_PADDING_Y, padx=UI_PADDING_X)
-    entry_dropdown_2.pack(side=tk.TOP, pady=UI_PADDING_Y, padx=UI_PADDING_X)
+    entry_combobox_1.pack(side=tk.TOP, pady=UI_PADDING_Y, padx=UI_PADDING_X)
+    entry_combobox_2.pack(side=tk.TOP, pady=UI_PADDING_Y, padx=UI_PADDING_X)
 
     entry_1_frame.pack(side=tk.LEFT, pady=UI_PADDING_Y)
     entry_2_frame.pack(side=tk.LEFT, pady=UI_PADDING_Y)
@@ -196,8 +206,8 @@ def main(debug = False):
     # Main loop
     root.mainloop()
     
-    if debug: print("\nEND")
+    if DEBUG: print("\nEND")
 
 
 if __name__ == "__main__":
-    main(debug=False)
+    main()
