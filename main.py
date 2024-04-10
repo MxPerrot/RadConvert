@@ -139,19 +139,24 @@ def main():
     entry_value_1 = tk.Entry(entry_1_frame, font=UI_FONT, textvariable=entry_value_1_var)
     entry_value_2 = tk.Entry(entry_2_frame, font=UI_FONT, textvariable=entry_value_2_var)
     
-    entry_combobox_1 = ttk.Combobox(entry_1_frame, state="readonly", values=ALL_UNITS, textvariable=entry_combobox_1_var)
-    entry_combobox_2 = ttk.Combobox(entry_2_frame, state="readonly", values=ALL_UNITS, textvariable=entry_combobox_2_var)
+    # Dropdown menus
+    entry_combobox_1 = ttk.Combobox(
+        entry_1_frame, 
+        state="readonly", 
+        values=ALL_UNITS, 
+        textvariable=entry_combobox_1_var
+    )
+
+    entry_combobox_2 = ttk.Combobox(
+        entry_2_frame,
+        state="readonly",
+        values=ALL_UNITS,
+        textvariable=entry_combobox_2_var
+    )
     
+    # Set the default values of the dropdown menus
     entry_combobox_1.set(ALL_UNITS[0])
     entry_combobox_2.set(ALL_UNITS[0])
-
-
-    button_close = tk.Button(
-        root,
-        text=TEXT_BUTTON_CLOSE,
-        font=UI_FONT,
-        command=root.quit
-    )
 
     # Trace the entry fields
     def trace_entry_1(*args):
@@ -179,7 +184,7 @@ def main():
     entry_value_1_var.trace("w", trace_entry_1)
     entry_value_2_var.trace("w", trace_entry_2)
     entry_combobox_1_var.trace("w", trace_entry_1)
-    entry_combobox_2_var.trace("w", trace_entry_2)
+    entry_combobox_2_var.trace("w", trace_entry_1) # trace_entry_1 because the left entry field is the fixed input, while the right one is the output
     
     
     # PACK ALL THE WIDGETS
@@ -198,10 +203,6 @@ def main():
     entry_2_frame.pack(side=tk.LEFT, pady=UI_PADDING_Y)
 
     entry_frame.pack(pady=UI_PADDING_Y)
-
-
-    # Close button
-    button_close.pack(pady=UI_PADDING_Y)
 
     # Main loop
     root.mainloop()
