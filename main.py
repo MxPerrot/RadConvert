@@ -46,8 +46,15 @@ UI_PADDING_X = 20
 # TEXT
 TEXT_TITLE = "RadConvert"
 TEXT_DESCRIPTION = "This project converts and compares real life exemple of radiation units using XKCD's radiation chart (https://xkcd.com/radiation/)"
-TEXT_BUTTON_CLOSE = "Close"
+TEXT_SWAP_BUTTON = "⇄"
+ENTRY_FRAME_TITLE = "Unit Converter"
 
+# TKINTER
+CENTER = "center"
+LEFT = "left"
+RIGHT = "right"
+WRITE = "w"
+READ_ONLY = "readonly"
 
 ###############################################################################
 #                                  FUNCTIONS                                  #
@@ -70,15 +77,8 @@ def convert(value, unit_from, unit_to, values_dict):
     """
     Convert a value from one unit to another
     """
-    result = None
-    # try:
-    #     if DEBUG: print(f"Converted {value} {unit_from} to {result} {unit_to}")
-    #     result = value * values_dict[unit_from] / values_dict[unit_to]
-    # except Exception as e:
-    #     print(f"Error: {e}")
-
-    if DEBUG: print(f"Converted {value} {unit_from} to {result} {unit_to}")
     result = value * values_dict[unit_from] / values_dict[unit_to]
+    if DEBUG: print(f"Converted {value} {unit_from} to {result} {unit_to}")
     return result
 
 def swap_units(menu_1, menu_2):
@@ -109,9 +109,19 @@ def main():
 
     if DEBUG: print("\nBEGIN RadConvert/main.py")
 
+
+    #############
+    # CONSTANTS #
+    #############
+
     # Load the units from the radiation_exemples.csv file
     # get the keys of the dictionary as a list
     ALL_UNITS = list(load_units(DATA_FILE_PATH).keys())
+
+
+    ##########
+    # WINDOW #
+    ##########
 
     # Display a window
     root = tk.Tk()
@@ -119,76 +129,38 @@ def main():
     root.geometry(f"{WINDOW_WIDTH}x{WINDOW_HEIGHT}")
     root.minsize(WINDOW_MIN_WIDTH, WINDOW_MIN_HEIGHT)
 
-    # Display the title of the window as a label
-    title = tk.Label(root, text=TEXT_TITLE, font=UI_FONT)
-    
-    # Display the description of the window as a label.
-    # Must be a multi-line text
-    description = tk.Label(
-        root,
-        text=TEXT_DESCRIPTION,
-        font=UI_FONT,
-        wraplength=WINDOW_WIDTH
-    )
-
-
-    # DISPLAY THE UNIT CONVERTER
-    # Two entry fields to input the value and the unit
-    # A dropdown menu to select the unit to convert to under each entry field
-    # The converted value is displayed in the other entry field
-
-        # Display the two entry fields side by side
-        # Put them in a frame
-        # Add a dropdown menu under each entry field
-        # Display the converted value in the other entry field
-    
     # Vars
-    entry_value_1_var = tk.StringVar()
-    entry_value_2_var = tk.StringVar()
+    entry_value_1_var    = tk.StringVar()
+    entry_value_2_var    = tk.StringVar()
     entry_combobox_1_var = tk.StringVar()
     entry_combobox_2_var = tk.StringVar()
 
-    # WIDGETS
+
+    ###########
+    # WIDGETS #
+    ###########
 
     # Frames
-    entry_frame = tk.LabelFrame(root, text="Unit converter")
+    entry_frame   = tk.LabelFrame(root,text=ENTRY_FRAME_TITLE)
     entry_1_frame = tk.Frame(entry_frame)
     entry_2_frame = tk.Frame(entry_frame)
     
-    # Entry fields
-    entry_value_1 = tk.Entry(
-        entry_1_frame,
-        font=UI_FONT,
-        textvariable=entry_value_1_var
-    )
+    # Title
+    title = tk.Label(root,text=TEXT_TITLE,font=UI_FONT)
+    
+    # Description
+    description = tk.Label(root,text=TEXT_DESCRIPTION,font=UI_FONT,wraplength=WINDOW_WIDTH)
 
-    entry_value_2 = tk.Entry(
-        entry_2_frame,
-        font=UI_FONT,
-        textvariable=entry_value_2_var
-    )
+    # Entry fields
+    entry_value_1 = tk.Entry(entry_1_frame,font=UI_FONT,textvariable=entry_value_1_var)
+    entry_value_2 = tk.Entry(entry_2_frame,font=UI_FONT,textvariable=entry_value_2_var)
     
     # Swap button
-    swap_button = tk.Button(
-        entry_frame,
-        text="⇄",
-        command=lambda: swap_units(entry_combobox_1, entry_combobox_2)
-    )
+    swap_button = tk.Button(entry_frame,text=TEXT_SWAP_BUTTON,command=lambda: swap_units(entry_combobox_1, entry_combobox_2))
 
     # Dropdown menus
-    entry_combobox_1 = ttk.Combobox(
-        entry_1_frame, 
-        state="readonly", 
-        values=ALL_UNITS, 
-        textvariable=entry_combobox_1_var
-    )
-
-    entry_combobox_2 = ttk.Combobox(
-        entry_2_frame,
-        state="readonly",
-        values=ALL_UNITS,
-        textvariable=entry_combobox_2_var
-    )
+    entry_combobox_1 = ttk.Combobox(entry_1_frame,state=READ_ONLY,values=ALL_UNITS,textvariable=entry_combobox_1_var)
+    entry_combobox_2 = ttk.Combobox(entry_2_frame,state=READ_ONLY,values=ALL_UNITS,textvariable=entry_combobox_2_var)
     
     # Set the default values of the dropdown menus
     entry_combobox_1.set(ALL_UNITS[0])
@@ -214,31 +186,35 @@ def main():
             entry_value_1_var.set(result)
         except ValueError:
             entry_value_1_var.set("")
-
+    
     # Trace the dropdown menus
-    entry_value_1_var.trace("w", trace_entry_1)
-    entry_value_2_var.trace("w", trace_entry_2)
-    entry_combobox_1_var.trace("w", trace_entry_1)
-    entry_combobox_2_var.trace("w", trace_entry_1) # trace_entry_1 because the left entry field is the fixed input, while the right one is the output
+    entry_value_1_var.trace(WRITE, trace_entry_1)
+    entry_value_2_var.trace(WRITE, trace_entry_2)
+    entry_combobox_1_var.trace(WRITE, trace_entry_1)
+    entry_combobox_2_var.trace(WRITE, trace_entry_1) # trace_entry_1 because the left entry field is the fixed input, while the right one is the output
     
-    
-    # PACK ALL THE WIDGETS
+    ###########
+    # PACKING #
+    ###########
 
-    # Title & Description
+    # Title
     title.pack(pady=UI_PADDING_Y)
+    
+    # Description
     description.pack(pady=UI_PADDING_Y)
     
     # Entry fields side by side but sticking to each other with swap button in the middle
     entry_value_1.pack(side=tk.TOP, pady=UI_PADDING_Y, padx=UI_PADDING_X)
-    swap_button.place(relx=0.5, rely=0.31, anchor='center')
+    swap_button.place(relx=0.5, rely=0.31, anchor=CENTER)
     entry_value_2.pack(side=tk.TOP, pady=UI_PADDING_Y, padx=UI_PADDING_X)
 
+    # Dropdown menus side by side
     entry_combobox_1.pack(side=tk.TOP, pady=UI_PADDING_Y, padx=UI_PADDING_X)
     entry_combobox_2.pack(side=tk.TOP, pady=UI_PADDING_Y, padx=UI_PADDING_X)
 
+    # Frames
     entry_1_frame.pack(side=tk.LEFT, pady=UI_PADDING_Y)
     entry_2_frame.pack(side=tk.LEFT, pady=UI_PADDING_Y)
-
     entry_frame.pack(pady=UI_PADDING_Y)
 
     # Main loop
