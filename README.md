@@ -24,12 +24,8 @@ There are no requirements. All the necessary libraries are included in the defau
 ### Features
 - Display the Radiation Chart on demand
 - Add a more detailed description and links 
-- Add a switch input button to switch between main and secondary input
 
 ### Fixes
 - Rewrite radiation exemples
 - Make long units more readable
-- Make UI more adaptable to changes in elements' size
-- Better input management.
-    - Floating point inaccuracy
-    - Add a "main" side so that when changing unit from the secondary side, it doesn't change the main input value
+- Floating point inaccuracy
