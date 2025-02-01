@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 # 
-# Author: @MxPerrot <mailto:maxime.perrot10@univ-rennes.fr>
+# Author: @MxPerrot <mailto:maxime.perrot@etudiant.univ-rennes.fr>
 # GitHub: MxPerrot/RadConvert
 # Created: 2024-04-09
 # Python: 3.12.2
